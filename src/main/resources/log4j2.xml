@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="warn">
+<appenders>
+    <console name="Console" target="SYSTEM_OUT">
+        <PatternLayout pattern="%5p [%t] (%F:%L) -%m%n"/>
+    </console>
+
+    <RollingFile name="ROOT" immediateFlush="false" append="true"
+                 fileName="${sys:user.home}/logs/QProxy/glbpay-default.log"
+                 filePattern="${sys:user.home}/logs/QProxy/backup/glbpay-default-%d{yyyy-MM-dd}-%i.log">
+        <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS}  %X{ip} [%c]-[%p] %m%n" />
+        <SizeBasedTriggeringPolicy size="100 MB" />
+        <DefaultRolloverStrategy max="1000"/>
+    </RollingFile>
+
+    <RollingFile name="DAL" immediateFlush="false" append="true"
+                 fileName="${sys:user.home}/logs/QProxy/glbpay-common-dal.log"
+                 filePattern="${sys:user.home}/logs/QProxy/backup/glbpay-common-dal-%d{yyyy-MM-dd}-%i.log">
+        <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS}  %X{ip} [%c]-[%p] %m%n"/>
+        <SizeBasedTriggeringPolicy size="100MB"/>
+        <DefaultRolloverStrategy max="1000"/>
+    </RollingFile>
+
+    <RollingFile name="API" immediateFlush="false" append="true"
+                 fileName="${sys:user.home}/logs/QProxy/glbpay-api.log"
+                 filePattern="${sys:user.home}/logs/QProxy/backup/glbpay-api-%d{yyyy-MM-dd}-%i.log">
+        <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss,SSS}  %X{ip} [%c]-[%p] %m%n"/>
+        <SizeBasedTriggeringPolicy size="100MB"/>
+        <DefaultRolloverStrategy max="1000"/>
+    </RollingFile>
+</appenders>
+
+<loggers>
+    <logger name="com.ibatis" level="info">
+        <AppenderRef ref="DAL"/>
+    </logger>
+    <logger name="org.apache.ibatis" level="info">
+        <AppenderRef ref="DAL"/>
+    </logger>
+    <logger name="java.sql" level="info">
+        <AppenderRef ref="DAL"/>
+    </logger>
+    <logger name="cn.com.insan.mall.common.dal" level="info">
+        <AppenderRef ref="DAL"/>
+    </logger>
+
+    <Root level="info" includeLocation="true">
+        <AppenderRef ref="ROOT"/>
+        <!--<AppenderRef ref="LOGSTASH"/>-->
+    </Root>
+</loggers>
+</configuration>
